@@ -1,60 +1,57 @@
-require([
-	'vendor/three',
-	'generator',
-	], function(THREE, generator) {
-		var camera, scene, renderer;
-		var updatable;
-		init();
+var THREE = require('./vendor/three.js'),
+generator = require('./generator.js');
 
-		renderer.render(scene, camera);
-		animate();
-		window.addEventListener( 'resize', onWindowResize, false );
+var camera, scene, renderer;
+var updatable;
+init();
 
-		function init() {
-			camera = new THREE.OrthographicCamera( window.innerWidth / - 2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / - 2, -5000, 1000000 );
-			//camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 100000000000);
-			camera.position.y = 1850;
-			camera.position.x = -3000;
-			camera.position.z = -3000;
-			camera.rotation.order = 'YXZ';
-			camera.rotation.y -= Math.PI / 4 * 3;
-			camera.rotation.x -= Math.PI / 9;
-			scene = new THREE.Scene();
+renderer.render(scene, camera);
+animate();
+window.addEventListener( 'resize', onWindowResize, false );
 
-			updatable = generator.make(scene);
+function init() {
+	camera = new THREE.OrthographicCamera( window.innerWidth / - 2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / - 2, -5000, 1000000 );
+	camera.position.y = 1850;
+	camera.position.x = -3000;
+	camera.position.z = -3000;
+	camera.rotation.order = 'YXZ';
+	camera.rotation.y -= Math.PI / 4 * 3;
+	camera.rotation.x -= Math.PI / 9;
+	scene = new THREE.Scene();
 
-			renderer =  new THREE.WebGLRenderer( { antialias: true } );
-			renderer.setSize(window.innerWidth, window.innerHeight);
-		//	renderer.setClearColor( scene.fog.color, 1 );
+	updatable = generator.make(scene);
 
-			renderer.gammaInput = true;
-			renderer.gammaOutput = true;
+	renderer =  new THREE.WebGLRenderer( { antialias: true } );
+	renderer.setSize(window.innerWidth, window.innerHeight);
 
-			renderer.shadowMapEnabled = true;
-			renderer.shadowMapCullFace = THREE.CullFaceBack;
+	renderer.gammaInput = true;
+	renderer.gammaOutput = true;
 
-			document.body.appendChild(renderer.domElement);
+	renderer.shadowMapEnabled = true;
+	renderer.shadowMapCullFace = THREE.CullFaceBack;
 
-		}
+	document.body.appendChild(renderer.domElement);
 
-		function animate() {
+}
 
-			requestAnimationFrame(animate);
+function animate() {
 
-			for (var i = 0; i < updatable.length; i++) {
-				updatable[i].update();
-			}
+	requestAnimationFrame(animate);
 
-			renderer.render(scene, camera);
-		}
+	for (var i = 0; i < updatable.length; i++) {
+		updatable[i].update();
+	}
 
-		function onWindowResize() {
+	renderer.render(scene, camera);
+}
 
-			camera.aspect = window.innerWidth / window.innerHeight;
-			camera.updateProjectionMatrix();
+function onWindowResize() {
 
-			renderer.setSize( window.innerWidth, window.innerHeight );
+	camera.aspect = window.innerWidth / window.innerHeight;
+	camera.updateProjectionMatrix();
 
-		}
-		
-	});
+	renderer.setSize( window.innerWidth, window.innerHeight );
+
+}
+
+
