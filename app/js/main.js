@@ -1,5 +1,4 @@
-var THREE = require('./vendor/three.js'),
-generator = require('./generator.js');
+var generator = require('./generator.js');
 
 var camera, scene, renderer;
 var updatable;
@@ -11,12 +10,10 @@ window.addEventListener( 'resize', onWindowResize, false );
 
 function init() {
 	camera = new THREE.OrthographicCamera( window.innerWidth / - 2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / - 2, -5000, 1000000 );
-	camera.position.y = 1850;
-	camera.position.x = -3000;
-	camera.position.z = -3000;
-	camera.rotation.order = 'YXZ';
-	camera.rotation.y -= Math.PI / 4 * 3;
-	camera.rotation.x -= Math.PI / 9;
+	camera.position.y = 500;
+	camera.position.x = 800;
+	camera.position.z = 500;
+	camera.rotation.x -= Math.PI / 2;
 	scene = new THREE.Scene();
 
 	updatable = generator.make(scene);
@@ -35,14 +32,18 @@ function init() {
 }
 
 function animate() {
-
-	requestAnimationFrame(animate);
-
-	for (var i = 0; i < updatable.length; i++) {
-		updatable[i].update();
-	}
+	updatable.forEach(function (updatable) {
+		updatable.update();
+	});
 
 	renderer.render(scene, camera);
+
+	/*
+      var dataURL = canvas.toDataURL();
+      document.getElementById('canvasImg').src = dataURL;
+	*/
+ 
+	requestAnimationFrame(animate);
 }
 
 function onWindowResize() {

@@ -1,18 +1,23 @@
 var makeGrid = require('./grid.js');
 
-var waveHeight = 20,
+var waveHeight = 100,
 waterLevel = 75;
 
 function Water (color) {
-	this.grid = makeGrid(8,100);
+	this.grid = makeGrid(16,100);
 	this.makeWaves();
 	this.triangles = this.grid.makeSeparateTriangles(color);
+	window.addEventListener('click', function () {
+		Water.prototype.colors = [102, 205, 170];
+	});
 }
 
 Water.prototype.makeWaves = function() {
 	this.grid.map2dArray(function(point){
 		point.isRaising = Math.random() > 0.5;
 		point.setY(Math.round(waterLevel + Math.random() * waveHeight));
+		point.setX(Math.round(point.x + Math.random()*20*3));
+		point.setZ(Math.round(point.z + Math.random()*20*3));
 		return point;
 	});
 };
@@ -20,6 +25,32 @@ Water.prototype.makeWaves = function() {
 Water.prototype.update = function(){
 	this.shiftWaves();
 	this.askToUpdateVertices();
+	this.updateColor();
+};
+
+Water.prototype.updateColor = function () {
+	var colors = Water.prototype.colors || [125, 125, 125];
+	
+	colors = colors.map( function (color) {
+		if (color < 80){
+			return 80;
+		}
+		else if (color > 180) {
+			return 180;
+		}
+		else {
+			return color + 3*(Math.random() > 0.5 ? 1 : -1);
+		}
+	});
+
+	this.triangles[0].material.color.setRGB(
+		colors[0]/255,
+		colors[1]/255,
+		colors[2]/255
+		);
+
+	Water.prototype.colors = colors;
+	//console.log(color);
 };
 
 Water.prototype.shiftWaves = function() {

@@ -1,33 +1,19 @@
-var THREE = require('./vendor/three.js'),
-Water = require('./water.js'),
-Land = require('./land.js'),
+var Matter = require('./matter.js'),
 Light = require('./light.js');
 
 var scene,
 
 themes = [{
-	water: 0xB8D2Cf,
-	land: 0xD1AB8C
-}, {
-	water: 0x2e8b57,
-	land: 0x666666
-}, {
-	water: 0x1c6ba0,
-	land: 0x60afaf
+	matter: 'rgb(102, 205, 170)'
 }];
 
 
-function makeWater (color) {
-	var water = new Water(color);
-	water.addTo(scene);
-	return water;
+function makeMatter (color) {
+	var matter = new Matter(color);
+	matter.addTo(scene);
+	return matter;
 }
 
-function makeLand (color) {
-	var land = new Land(color);
-	land.addTo(scene);
-	return land;
-}
 
 function makeLight () {
 	var light = new Light();
@@ -57,10 +43,9 @@ function make (givenScene) {
 	theme = themes[themeIndex];
 	var updatable = [];
 	scene = givenScene;
-	makeBackground(theme.water);
-	makeLand(theme.land);
+	makeBackground(theme.matter);
 	makeLight();
-	updatable.push(makeWater(theme.water));
+	updatable.push(makeMatter(theme.matter));
 	return updatable;
 }
 module.exports = {

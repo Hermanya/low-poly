@@ -25,7 +25,7 @@ module.exports = function(grunt) {
       options: {
         jshintrc: '.jshintrc'
       },
-      all: [ base + '/js/*.js' ]
+      all: [ base + '/js/*.js']
     },
     jsonlint: {
       pkg: [ 'package.json' ],

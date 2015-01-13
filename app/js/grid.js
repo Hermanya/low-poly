@@ -1,5 +1,4 @@
-var THREE = require('./vendor/three.js'),
-Triangle = require('./triangle.js');
+var Triangle = require('./triangle.js');
 
 function makeGrid (length, distance) {
 	var grid = make2dArray(length);

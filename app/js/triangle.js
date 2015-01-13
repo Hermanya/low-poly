@@ -1,4 +1,3 @@
-var THREE = require('./vendor/three.js');
 function Triangle (points, material) {
 	var geometry = Triangle.makeGeometry(points);
 	var mesh = new THREE.Mesh(geometry, material);
